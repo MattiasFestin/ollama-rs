@@ -29,7 +29,7 @@ pub trait Parameters: DeserializeOwned + JsonSchema {}
 
 impl<P: DeserializeOwned + JsonSchema> Parameters for P {}
 
-pub(crate) trait ToolHolder {
+pub trait ToolHolder {
     fn call(&mut self, parameters: Value) -> Pin<Box<dyn Future<Output = Result<String>> + '_>>;
 }
 
@@ -50,7 +50,7 @@ pub struct ToolInfo {
 }
 
 impl ToolInfo {
-    pub(crate) fn new<P: Parameters, T: Tool<Params = P>>() -> Self {
+    pub fn new<P: Parameters, T: Tool<Params = P>>() -> Self {
         let mut settings = SchemaSettings::draft07();
         settings.inline_subschemas = true;
         let generator = settings.into_generator();
@@ -74,7 +74,7 @@ enum ToolType {
 }
 
 #[derive(Clone, Debug, Serialize)]
-struct ToolFunctionInfo {
+pub struct ToolFunctionInfo {
     name: &'static str,
     description: &'static str,
     parameters: RootSchema,
