@@ -52,6 +52,10 @@ impl<C: ChatHistory> Coordinator<C> {
         }
     }
 
+    pub fn set_tools(&mut self, tools: HashMap<&'static str, Box<dyn ToolHolder>>) {
+        self.tools = tools;
+    }
+
     pub fn add_tool<T: Tool + 'static>(mut self, tool: T) -> Self {
         self.tool_infos.push(ToolInfo::new::<_, T>());
         self.tools.insert(T::name().to_string(), Box::new(tool));
