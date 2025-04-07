@@ -60,6 +60,10 @@ impl<C: ChatHistory> Coordinator<C> {
         &self.history
     }
 
+    pub fn get_tool_infos(&self) -> Vec<ToolInfo> {
+        self.tool_infos.clone()
+    }
+
     pub fn add_tool<T: Tool + 'static>(mut self, tool: T) -> Self {
         self.tool_infos.push(ToolInfo::new::<_, T>());
         self.tools.insert(T::name().to_string(), Box::new(tool));
