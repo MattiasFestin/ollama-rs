@@ -45,8 +45,8 @@ impl<T: Tool> ToolHolder for T {
 #[derive(Clone, Debug, Serialize)]
 pub struct ToolInfo {
     #[serde(rename = "type")]
-    tool_type: ToolType,
-    function: ToolFunctionInfo,
+    pub tool_type: ToolType,
+    pub function: ToolFunctionInfo,
 }
 
 impl ToolInfo {
@@ -69,15 +69,15 @@ impl ToolInfo {
 }
 
 #[derive(Clone, Debug, Serialize)]
-enum ToolType {
+pub enum ToolType {
     Function,
 }
 
 #[derive(Clone, Debug, Serialize)]
 pub struct ToolFunctionInfo {
-    name: &'static str,
-    description: &'static str,
-    parameters: RootSchema,
+    pub name: &'static str,
+    pub description: &'static str,
+    pub parameters: RootSchema,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
