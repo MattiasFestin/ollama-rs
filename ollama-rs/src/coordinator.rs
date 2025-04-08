@@ -104,6 +104,8 @@ impl<C: ChatHistory> Coordinator<C> {
             }
         }
 
+        let empty_messages = messages.is_empty();
+
         let mut request = ChatMessageRequest::new(self.model.clone(), messages)
             .options(self.options.clone())
             .tools(self.tool_infos.clone());
@@ -116,7 +118,7 @@ impl<C: ChatHistory> Coordinator<C> {
             if self.tool_infos.is_empty() {
                 request = request.format(format.clone());
             } else if let Some(last_message) = self.history.messages().last() {
-                if last_message.role != MessageRole::Tool || messages.is_empty() {
+                if last_message.role != MessageRole::Tool || empty_messages {
                     request = request.format(format.clone());
                 }
             }
