@@ -115,10 +115,8 @@ impl<C: ChatHistory> Coordinator<C> {
             // recursive call by checking that the last message in the history has a Tool role,
             // before setting the format. Ollama otherwise won't call the tool if the format
             // is set on the first request.
-            if self.tool_infos.is_empty() {
-                request = request.format(format.clone());
-            } else if let Some(last_message) = self.history.messages().last() {
-                if last_message.role == MessageRole::Tool || empty_messages {
+            if let Some(last_message) = self.history.messages().last() {
+                if last_message.role != MessageRole::Tool {
                     request = request.format(format.clone());
                 }
             }
