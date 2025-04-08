@@ -60,6 +60,10 @@ impl<C: ChatHistory> Coordinator<C> {
         &self.history
     }
 
+    pub fn set_tool_infos(&mut self, tool_infos: Vec<ToolInfo>) {
+        self.tool_infos = tool_infos;
+    }
+
     pub fn get_tool_infos(&self) -> Vec<ToolInfo> {
         self.tool_infos.clone()
     }
