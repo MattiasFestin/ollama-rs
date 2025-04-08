@@ -116,7 +116,7 @@ impl<C: ChatHistory> Coordinator<C> {
             if self.tool_infos.is_empty() {
                 request = request.format(format.clone());
             } else if let Some(last_message) = self.history.messages().last() {
-                if last_message.role != MessageRole::Tool {
+                if last_message.role != MessageRole::Tool || messages.is_empty() {
                     request = request.format(format.clone());
                 }
             }
