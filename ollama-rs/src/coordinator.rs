@@ -56,8 +56,8 @@ impl<C: ChatHistory> Coordinator<C> {
         self.tools = tools;
     }
 
-    pub fn get_tool(&self) -> HashMap<&'static str, Box<dyn ToolHolder>> {
-        self.tools
+    pub fn get_tool(&self) -> &HashMap<&'static str, Box<dyn ToolHolder>> {
+        &self.tools
     }
 
     pub fn get_history(&self) -> &C {
