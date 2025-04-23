@@ -33,13 +33,12 @@ impl Ollama {
         request.stream = true;
 
         let url = format!("{}api/generate", self.url_str());
-        let serialized = serde_json::to_string(&request)?;
         let builder = self.reqwest_client.post(url);
 
         #[cfg(feature = "headers")]
         let builder = builder.headers(self.request_headers.clone());
 
-        let res = builder.body(serialized).send().await?;
+        let res = builder.json(&request).send().await?;
 
         if !res.status().is_success() {
             return Err(OllamaError::Other(
@@ -74,13 +73,12 @@ impl Ollama {
         request.stream = false;
 
         let url = format!("{}api/generate", self.url_str());
-        let serialized = serde_json::to_string(&request)?;
         let builder = self.reqwest_client.post(url);
 
         #[cfg(feature = "headers")]
         let builder = builder.headers(self.request_headers.clone());
 
-        let res = builder.body(serialized).send().await?;
+        let res = builder.json(&request).send().await?;
 
         if !res.status().is_success() {
             return Err(OllamaError::Other(
@@ -113,6 +111,8 @@ pub struct GenerationResponse {
     pub context: Option<GenerationContext>,
     /// Time spent generating the response
     pub total_duration: Option<u64>,
+    /// Time spent in nanoseconds loading the model
+    pub load_duration: Option<u64>,
     /// Number of tokens in the prompt
     pub prompt_eval_count: Option<u64>,
     /// Time spent in nanoseconds evaluating the prompt
