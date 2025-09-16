@@ -37,7 +37,7 @@ calc = { version = "0.4.0", optional = true }
 html2md = { version = "0.2.15", optional = true }
 static_assertions = "1.1.0"
 modelfile = { version = "0.3.0", optional = true }
-
+ollama-rs-types = { workspace = true }
 ollama-rs-macros = { workspace = true, optional = true }
 
 [features]

@@ -1,10 +1,8 @@
+use ollama_rs_types::ToolInfo;
 use serde::Serialize;
 
 use crate::{
-    generation::{
-        parameters::{FormatType, KeepAlive},
-        tools::ToolInfo,
-    },
+    generation::parameters::{FormatType, KeepAlive},
     models::ModelOptions,
 };
 

@@ -1,9 +1,10 @@
 [workspace]
 resolver = "2"
-members = ["ollama-rs", "ollama-rs-macros"]
+members = ["ollama-rs", "ollama-rs-macros", "ollama-rs-types"]
 
 [workspace.dependencies]
 ollama-rs-macros = { path = "ollama-rs-macros" }
+ollama-rs-types = { path = "ollama-rs-types" }
 
 [workspace.package]
 version = "0.3.1"

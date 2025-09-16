@@ -1,6 +1,7 @@
+use ollama_rs_types::ToolCall;
 use serde::{Deserialize, Serialize};
 
-use super::{images::Image, tools::ToolCall};
+use super::{images::Image};
 use crate::{error::OllamaError, history::ChatHistory, Ollama};
 use request::ChatMessageRequest;
 

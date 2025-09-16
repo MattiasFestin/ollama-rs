@@ -1,10 +1,12 @@
 use std::collections::HashMap;
 
+use ollama_rs_types::{Tool, ToolInfo};
+
 use crate::{
     generation::{
         chat::{request::ChatMessageRequest, ChatMessage, ChatMessageResponse, MessageRole},
         parameters::{FormatType, KeepAlive},
-        tools::{Tool, ToolHolder, ToolInfo},
+        tools::{ToolHolder},
     },
     history::ChatHistory,
     models::ModelOptions,
@@ -54,11 +56,12 @@ impl<C: ChatHistory> Coordinator<C> {
         }
     }
 
-    pub fn set_tools(&mut self, tools: HashMap<&'static str, Box<dyn ToolHolder>>) {
+    pub fn set_tools(&mut self, tools: HashMap<String, Box<dyn ToolHolder>>) {
+        println!("Setting tools: {:?}", tools.keys());
         self.tools = tools;
     }
 
-    pub fn get_tool(&self) -> &HashMap<&'static str, Box<dyn ToolHolder>> {
+    pub fn get_tool(&self) -> &HashMap<String, Box<dyn ToolHolder>> {
         &self.tools
     }
 
@@ -67,6 +70,7 @@ impl<C: ChatHistory> Coordinator<C> {
     }
 
     pub fn set_tool_infos(&mut self, tool_infos: Vec<ToolInfo>) {
+        println!("Setting tool infos: {:?}", tool_infos);
         self.tool_infos = tool_infos;
     }
 
@@ -111,7 +115,7 @@ impl<C: ChatHistory> Coordinator<C> {
             }
         }
 
-        let empty_messages = messages.is_empty();
+        println!("Tool infos: {:?}", self.tool_infos);
 
         let mut request = ChatMessageRequest::new(self.model.clone(), messages)
             .options(self.options.clone())
@@ -165,6 +169,7 @@ impl<C: ChatHistory> Coordinator<C> {
             // recurse
             Box::pin(self.chat(vec![])).await
         } else {
+            println!("No tool calls, returning response");
             if self.debug {
                 eprintln!(
                     "Response from {} of type {:?}: '{}'",

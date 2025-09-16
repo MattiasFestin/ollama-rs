@@ -34,7 +34,7 @@ pub fn function_impl(_attr: TokenStream, value: TokenStream) -> TokenStream {
             .into();
     };
 
-    let vis = &input.vis;
+    let vis: &syn::Visibility = &input.vis;
     let function_name = &input.sig.ident;
     let function_module_name = Ident::new(&format!("__{}_data", input.sig.ident), input.span());
 
@@ -85,7 +85,7 @@ fn build_tool_impl(
     let function_params_struct_field_names = params_struct.fields.iter().map(|field| &field.name);
 
     quote_spanned!(input.span() =>
-        impl ::ollama_rs::generation::tools::Tool for #function_name {
+        impl ::ollama_rs_types::Tool for #function_name {
             type Params = #function_module_name::#function_params_struct_name;
 
             #[inline]
@@ -109,7 +109,7 @@ fn build_tool_impl(
 }
 
 fn build_params_struct(input: &ItemFn, docs: &FunctionDocs) -> syn::Result<ParamsStruct> {
-    let name = Ident::new(
+    let name: Ident = Ident::new(
         &format!("__{}__Params", input.sig.ident),
         input.sig.ident.span(),
     );
